@@ -13,7 +13,13 @@ class _MystopWatchState extends State<MystopWatch> {
   late Timer timer;
   bool is_running = false;
   int milliseconds = 0;
+  final laps = <int>[];
 
+  // void lap(){
+  // setstate((){
+  //   laps.add(milliseconds)
+  // })
+  // }
   void _startTimer() {
     if (!is_running) {
       is_running = true;

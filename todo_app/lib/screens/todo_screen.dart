@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:todo_app/models/tsak.dart';
 
 class TodoScreen extends StatefulWidget {
   const TodoScreen({super.key});
@@ -11,12 +12,14 @@ class TodoScreen extends StatefulWidget {
 
 class _TodoScreenState extends State<TodoScreen> {
   TextEditingController txtTitle = TextEditingController();
-  List<String> tasks = [];
+  int selIndx = -1;
+  bool isDone = false;
+  List<Task> tasks = [];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Todo App', style: TextStyle(color: Colors.white),),
+        title: Text('Todo App', style: TextStyle(color: Colors.white)),
         backgroundColor: Colors.deepPurple,
       ),
       body: Column(
@@ -32,32 +35,46 @@ class _TodoScreenState extends State<TodoScreen> {
                   ),
                 ),
               ),
-              IconButton(onPressed: (){
-                log(txtTitle.text);
-                if(txtTitle.text.isNotEmpty){
-                  tasks.add(txtTitle.text);
-                  txtTitle.text = "";
-                  setState(() {});
-                }
-              }, 
-              icon: Icon(Icons.add)
-              )
+              IconButton(
+                onPressed: () {
+                  log(txtTitle.text);
+                  if (txtTitle.text.isNotEmpty) {
+                    if (selIndx == -1) {
+                      tasks.add(Task(txtTitle.text, false));
+                    } else {
+                      tasks[selIndx].title = txtTitle.text;
+                      selIndx = -1;
+                    }
+                    txtTitle.text = "";
+                    setState(() {});
+                  }
+                },
+                icon: Icon(Icons.add),
+              ),
             ],
           ),
           Expanded(
             child: ListView.builder(
               itemBuilder: (context, index) => ListTile(
-                title: Text(tasks[index]),
+                leading: Checkbox(
+                  value: tasks[index].isCompleted,
+                  onChanged: (v) {
+                    tasks[index].isCompleted = v!;
+                    setState(() {});
+                  },
+                ),
+                title: Text(tasks[index].title),
                 trailing: SizedBox(
                   width: 100,
                   child: Row(
                     children: [
                       IconButton(
-                        onPressed: (){
-                          tasks.removeAt(index);
+                        onPressed: () {
+                          txtTitle.text = tasks[index].title;
+                          selIndx = index;
                           setState(() {});
-                      }, 
-                      icon: Icon(Icons.edit)
+                        },
+                        icon: Icon(Icons.edit),
                       ),
                       IconButton(
                         onPressed: () {
@@ -71,10 +88,12 @@ class _TodoScreenState extends State<TodoScreen> {
                 ),
               ),
               itemCount: tasks.length,
-          )
-         )
+            ),
+          ),
         ],
       ),
-    );//overall screen
+    );
   }
 }
+
+// create an app to manage expense 
