@@ -1,6 +1,7 @@
 import 'package:first_app_arjoosir/control/celenderexample.dart';
 import 'package:first_app_arjoosir/control/chkbox.dart';
 import 'package:first_app_arjoosir/control/dropdownexample.dart';
+import 'package:first_app_arjoosir/control/formlist.dart';
 import 'package:first_app_arjoosir/control/gridview.dart';
 import 'package:first_app_arjoosir/control/imagedisplay.dart';
 import 'package:first_app_arjoosir/control/inputcontrol.dart';
@@ -28,7 +29,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
       ),
-      home: LoginScreenPart(),
+      home: Formlist(),
     );
   }
 }
